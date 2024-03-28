@@ -16,7 +16,7 @@ function affichConsult($linkpdo){
         return $reponse;
     }
     $reponse["status_code"] = 200;
-    $reponse['status_message'] = "gg";
+    $reponse['status_message'] = "Succes";
     $reponse['data'] = $reqAllFacts->fetchAll();
     return $reponse;
 
@@ -44,17 +44,17 @@ function affichUneConsult($linkpdo, $id){
 
 }
 
-function creerConsult($linkpdo, $date_consult, $heure_consult, $duree_consult, $id_medecin, $id_usager) {
+function creerConsult($linkpdo, $data) {
     $reponse = array();
 
     $sql = "INSERT INTO consultation (`date_consult`, `heure_consult`, `duree_consult`, `id_medecin`, `id_usager`) VALUES (:date_consult, :heure_consult, :duree_consult, :id_medecin, :id_usager)";
 
     $reqAllFacts = $linkpdo->prepare($sql);
-    $reqAllFacts->bindParam(':date_consult', $date_consult);
-    $reqAllFacts->bindParam(':heure_consult', $heure_consult);
-    $reqAllFacts->bindParam(':duree_consult', $duree_consult);
-    $reqAllFacts->bindParam(':id_medecin', $id_medecin);
-    $reqAllFacts->bindParam(':id_usager', $id_usager);
+    $reqAllFacts->bindParam(':date_consult', $data['date_consult']);
+    $reqAllFacts->bindParam(':heure_consult', $data['heure_consult']);
+    $reqAllFacts->bindParam(':duree_consult', $data['duree_consult']);
+    $reqAllFacts->bindParam(':id_medecin', $data['id_medecin']);
+    $reqAllFacts->bindParam(':id_usager', $data['id_usager']);
 
     $resExec = $reqAllFacts->execute();
 
@@ -67,7 +67,7 @@ function creerConsult($linkpdo, $date_consult, $heure_consult, $duree_consult, $
 
     $reponse["status_code"] = 200;
     $reponse['status_message'] = "Consultation créée avec succès.";
-    $reponse['data'] = null;
+    $reponse['data'] = $data;
     return $reponse;
 }
 

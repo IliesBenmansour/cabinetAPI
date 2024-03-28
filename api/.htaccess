@@ -11,7 +11,7 @@ RewriteRule ^usagers/([0-9]+)$ /cabinet/api/usagersapi/index.php?id_usager=$1
 
 # CONSULTATIONS
 RewriteRule ^consultations$ /cabinet/api/consultationsapi/index.php
-RewriteRule ^consultations/([0-9]+)$ /cabinet/api/consultationsapi/index.php?id=$1  
+RewriteRule ^consultations/([0-9]+)$ /cabinet/api/consultationsapi/index.php?id_consult=$1  
 
 # STATISTIQUES
 RewriteRule ^stats/medecins$ /cabinet/api/statsapi/mede/index.php?stat=medecins

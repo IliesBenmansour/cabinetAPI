@@ -1,17 +1,11 @@
 <?php
-include "controller.php";
-include "../../auth/authapi.php";
-
-if(get_bearer_token() == null){
-    $reponse["status_code"] = 401;
-    $reponse['status_message'] = "Token invalide";
-    $reponse['data'] = null;
-    return deliver_response($reponse['status_code'],$reponse['status_message'],$reponse['data']);
-}
+include "controlleur.php";
+include "../functions/jwt_utils.php";
+include "../functions/functions.php";
 
 
-if(isValidToken(get_bearer_token(),'') == TRUE){
-    $linkpdo = connexion_BD();
+if(TRUE){
+    $linkpdo = connexionBD();
     $http_method = $_SERVER['REQUEST_METHOD'];
     switch ($http_method){
         case "GET" :
@@ -29,7 +23,7 @@ if(isValidToken(get_bearer_token(),'') == TRUE){
             //Récupération des données dans le corps
             $postedData = file_get_contents('php://input');
             $data = json_decode($postedData,true); //Reçoit du json et renvoi une
-            $matchingData =creerConsult($linkpdo,$data['date_consult'],$data['heure_consult'],$data['duree_consult'],$data['id_medecin'],$data['id_usager']);
+            $matchingData =creerConsult($linkpdo,$data);
             deliver_response($matchingData['status_code'],$matchingData['status_message'],$matchingData['data']);
 
             break;
