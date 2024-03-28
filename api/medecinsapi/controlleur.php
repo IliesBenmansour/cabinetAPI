@@ -99,7 +99,6 @@ function UpdateMedecin($linkpdo, $id, $data)
     $reqRecup->execute();
     $donneRecup = $reqRecup->fetch(PDO::FETCH_ASSOC);
 
-    // Vérification si le médecin existe
     if (!$donneRecup) {
         $reponse['status_code'] = 404;
         $reponse['status_message'] = 'Médecin non trouvé.';
@@ -117,68 +116,24 @@ function UpdateMedecin($linkpdo, $id, $data)
     $req = $linkpdo->prepare($sql);
 
     // Liaison des paramètres
-    $req->bindParam(':id', $id, PDO::PARAM_INT);
-    $req->bindParam(':civ', $data['civilite'], PDO::PARAM_STR);
-    $req->bindParam(':nom', $data['nom'], PDO::PARAM_STR);
-    $req->bindParam(':prenom', $data['prenom'], PDO::PARAM_STR);
+    $req->bindValue(':id', $id, PDO::PARAM_INT);
+    $req->bindValue(':civ', isset($data['civilite']) ? $data['civilite'] : $donneRecup['civilite'], PDO::PARAM_STR);
+    $req->bindValue(':nom', isset($data['nom']) ? $data['nom'] : $donneRecup['nom'], PDO::PARAM_STR);
+    $req->bindValue(':prenom', isset($data['prenom']) ? $data['prenom'] : $donneRecup['prenom'], PDO::PARAM_STR);
 
-    // Début de la transaction
     $linkpdo->beginTransaction();
 
-    // Exécution de la requête
     if (!$req->execute()) {
-        // En cas d'échec, retournez une réponse avec un code d'état 404
         $reponse['status_code'] = 404;
         $reponse['status_message'] = 'Ressource non trouvée.';
         $reponse['data'] = null;
         return $reponse;
     }
-
-    // Commit de la transaction
     $linkpdo->commit();
 
-    // Retournez une réponse indiquant le succès
     $reponse['status_code'] = 200;
     $reponse['status_message'] = 'Succès';
     $reponse['data'] = $data;
-
-    return $reponse;
-}
-
-function UpdateAllMedecin($linkpdo, $id, $data)
-{
-    $sql = "UPDATE `medecin` SET 
-            `civilite` = :civ, 
-            `nom` = :nom, 
-            `prenom` = :prenom
-        WHERE `id_medecin` = :id";
-    if ($sql == false) {
-        $reponse['status_code'] = 400;
-        $reponse['status_message'] = 'La syntaxe de la requête est erronée.';
-        $reponse['data'] = null;
-        return $reponse;
-    }
-
-    $req = $linkpdo->prepare($sql);
-    $req->bindParam(':civ', $data['civilite'], PDO::PARAM_STR);
-    $req->bindParam(':nom', $data['nom'], PDO::PARAM_INT);
-    $req->bindParam(':prenom', $data['prenom'], PDO::PARAM_STR);
-    $req->bindParam(':id', $data['id_medecin'], PDO::PARAM_STR);
-
-    $linkpdo->beginTransaction(); //Démarage de la transaction
-
-    if (!$req->execute()) {
-        $reponse['status_code'] = 404;
-        $reponse['status_message'] = 'Ressource non trouvée.';
-        $reponse['data'] = null;
-        return $reponse;
-    }
-
-    $reponse['status_code'] = 200;
-    $reponse['status_message'] = 'Succes';
-    $reponse['data'] = $data;
-
-    $linkpdo->commit();
 
     return $reponse;
 }

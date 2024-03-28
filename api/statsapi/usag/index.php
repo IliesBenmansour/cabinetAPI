@@ -8,7 +8,7 @@ $linkpdo = connexionBD();
 
 switch ($http_method) {
     case "GET":
-        $matchingData = getStatistiquesMedecins($linkpdo);
+        $matchingData = getStatistiqueUsager($linkpdo);
         break;
     default:
         break;
