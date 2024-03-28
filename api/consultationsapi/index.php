@@ -33,7 +33,7 @@ if(TRUE){
                 $id=htmlspecialchars($_GET['id_consult']);
                 $postedData = file_get_contents('php://input');
                 $data = json_decode($postedData,true);
-                $matchingData =patchConsult($linkpdo,$id,$data['date_consult'],$data['heure_consult'],$data['duree_consult'],$data['id_medecin'],$data['id_usager']);
+                $matchingData =patchConsult($linkpdo,$id,$data);
                 deliver_response($matchingData['status_code'],$matchingData['status_message'],$matchingData['data']);
             }
             break;
