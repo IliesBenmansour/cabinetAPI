@@ -19,7 +19,7 @@ function readUsagerID($id, $linkpdo)
     }
     $data = $req->fetch();
 
-    if(!$data){
+    if($data == null){
         $reponse['status_code'] = 204;
         $reponse['status_message'] = 'Succès';
         $reponse['data'] = 'Aucun utilisateur trouvé';
@@ -169,7 +169,7 @@ function deleteUsager($linkpdo, $id)
 
     $sqlDeleteConsultations = "DELETE FROM consultation WHERE id_usager = :id_usager";
     $reqDeleteConsultations = $linkpdo->prepare($sqlDeleteConsultations);
-    $reqDeleteConsultations->bindParam(':id_medecin', $id, PDO::PARAM_INT);
+    $reqDeleteConsultations->bindParam(':id_usager', $id, PDO::PARAM_INT);
     $reqDeleteConsultations->execute();
 
     $sql = "DELETE FROM `usager` WHERE id_usager = :id";
