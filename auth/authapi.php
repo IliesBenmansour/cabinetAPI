@@ -1,6 +1,20 @@
 <?php
-include '../api/functions/jwt_utils.php';
-include "connexionDB.php";
+include 'jwt_utils.php';
+
+function BDconnexion() {
+    $servername = "mysql-47medecine.alwaysdata.net";
+    $db = "47medecine_connexion";
+    $login = "344048_menoh";
+    $mdp = "cestmoiyoumni";
+
+    try {
+        $bdd = new PDO("mysql:host=$servername;dbname=$db;charset=utf8", $login, $mdp);
+        $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $bdd;
+    } catch (PDOException $e) {
+        die('La connexion a la base de donnée a échoué: ' . $e->getMessage());
+    }
+}
 $linkpdo = BDconnexion();
 $http_method = $_SERVER['REQUEST_METHOD'];
 $data = (array) json_decode(file_get_contents('php://input'), TRUE);
