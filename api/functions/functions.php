@@ -97,21 +97,28 @@ function validToken() {
     // Configuration des options cURL
     curl_setopt($ch, CURLOPT_URL, $url); // Définition de l'URL
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . get_bearer_token())); // Utilisation du token dans l'en-tête
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 
     // Exécution de la requête cURL
     $result = curl_exec($ch);
 
+    // Récupération du code de statut HTTP
+    $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
     // Gestion des erreurs
-    if(curl_errno($ch)) {
+    if (curl_errno($ch)) {
         echo 'Erreur cURL : ' . curl_error($ch);
     }
 
     // Fermeture de la session cURL
     curl_close($ch);
 
-    // Retourne le résultat en tant que tableau JSON décodé
-    return json_decode($result, true);
+    // Vérification du code de statut HTTP
+    if ($http_status == 200) {
+        return true; // Token valide
+    } else {
+        return false; // Token invalide
+    }
 }

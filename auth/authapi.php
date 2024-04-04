@@ -41,7 +41,7 @@ return false;
 }
 }
 function isValidToken($token){
-$secret = 'secret1';
+$secret = 'UA_:^4666Fx=(44Xf+t2LdFja';
 if(is_jwt_valid(get_bearer_token(),$secret) == TRUE){
 return TRUE;
 }
@@ -56,7 +56,7 @@ if($http_method == "POST"){
         $headers = array('alg' =>'HS256','typ'=>'JWT');
         $payload = array('login' => $login, 'exp' =>(time() +600));
 
-        $jwt  = generate_jwt($headers, $payload,$secret = 'secret1');
+        $jwt  = generate_jwt($headers, $payload,$secret = 'UA_:^4666Fx=(44Xf+t2LdFja');
 
         $sql = $linkpdo->prepare('SELECT `role` FROM users WHERE `login`= :login');
         $sql->bindParam(':login',$login,PDO::PARAM_STR); //Attention au type du paramètre !
@@ -65,12 +65,13 @@ if($http_method == "POST"){
         $res = $result['role'];
         $data['jwt'] = $jwt;
         $data['role'] = $res;
-        deliver_response(200,"tien le token",$data);
+        deliver_response(200,"Token :",$data);
     }else{
         deliver_response(401,"Utilisateur inconnue");
     }
 }
 if($http_method == "GET"){
+    echo 'get_bearer_token()';
     $verif =isValidToken(get_bearer_token());
     if($verif == TRUE){
         deliver_response(200,"Token valide");
