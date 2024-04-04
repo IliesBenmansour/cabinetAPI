@@ -50,27 +50,27 @@ return FALSE;
 
 
 if($http_method == "POST"){
-if(isValidUser($data['login'], $data['mdp'])){
-    $login = $data['login'];
+    if(isValidUser($data['login'], $data['mdp'])){
+        $login = $data['login'];
 
-    $headers = array('alg' =>'HS256','typ'=>'JWT');
-    $payload = array('login' => $login, 'exp' =>(time() +600));
+        $headers = array('alg' =>'HS256','typ'=>'JWT');
+        $payload = array('login' => $login, 'exp' =>(time() +600));
 
-    $jwt  = generate_jwt($headers, $payload,$secret = 'secret1');
+        $jwt  = generate_jwt($headers, $payload,$secret = 'secret1');
 
-    $sql = $linkpdo->prepare('SELECT `role` FROM users WHERE `login`= :login');
-    $sql->bindParam(':login',$login,PDO::PARAM_STR); //Attention au type du paramètre !
-    $sql->execute();
-    $result = $sql->fetch(PDO::FETCH_ASSOC);
-    $res = $result['role'];
-    $data['jwt'] = $jwt;
-    $data['role'] = $res;
-    deliver_response(200,"tien le token",$data);
-}else{
-    deliver_response(401,"Utilisateur inconnue");
+        $sql = $linkpdo->prepare('SELECT `role` FROM users WHERE `login`= :login');
+        $sql->bindParam(':login',$login,PDO::PARAM_STR); //Attention au type du paramètre !
+        $sql->execute();
+        $result = $sql->fetch(PDO::FETCH_ASSOC);
+        $res = $result['role'];
+        $data['jwt'] = $jwt;
+        $data['role'] = $res;
+        deliver_response(200,"tien le token",$data);
+    }else{
+        deliver_response(401,"Utilisateur inconnue");
+    }
 }
-}
-else{
+if($http_method == "GET"){
     $verif =isValidToken(get_bearer_token());
     if($verif == TRUE){
         deliver_response(200,"Token valide");

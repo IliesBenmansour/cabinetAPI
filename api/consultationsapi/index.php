@@ -3,6 +3,8 @@ include "controlleur.php";
 include "../functions/jwt_utils.php";
 include "../functions/functions.php";
 
+
+
 if(get_bearer_token() == null){
     $reponse["status_code"] = 401;
     $reponse['status_message'] = "Il n'y a pas de token";
@@ -10,7 +12,7 @@ if(get_bearer_token() == null){
     return deliver_response($reponse['status_code'],$reponse['status_message'],$reponse['data']);
 }
 
-if(isValidToken(get_bearer_token(),'') == TRUE){
+if(validToken() == TRUE){
     $linkpdo = connexionBD();
     $http_method = $_SERVER['REQUEST_METHOD'];
     switch ($http_method){

@@ -87,3 +87,31 @@ function isValidUser($username, $password)
     }
     return false;
 }
+function validToken() {
+    // URL du script authapi.php sur votre serveur
+    $url = 'http://merdecinauth.alwaysdata.net/authapi.php'; // Ajout du protocole HTTP
+
+    // Initialisation de cURL
+    $ch = curl_init();
+
+    // Configuration des options cURL
+    curl_setopt($ch, CURLOPT_URL, $url); // Définition de l'URL
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Bearer ' . get_bearer_token())); // Utilisation du token dans l'en-tête
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+    // Exécution de la requête cURL
+    $result = curl_exec($ch);
+
+    // Gestion des erreurs
+    if(curl_errno($ch)) {
+        echo 'Erreur cURL : ' . curl_error($ch);
+    }
+
+    // Fermeture de la session cURL
+    curl_close($ch);
+
+    // Retourne le résultat en tant que tableau JSON décodé
+    return json_decode($result, true);
+}
