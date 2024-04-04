@@ -1,10 +1,6 @@
 Options +FollowSymlinks
 RewriteEngine On
 
-
-# AUTHENTIFICATION
-RewriteRule ^auth$ /cabinet/auth/authapi.php
-
 # MEDECINS
 RewriteRule ^medecins$ /cabinet/api/medecinsapi/index.php
 RewriteRule ^medecins/([0-9]+)$ /cabinet/api/medecinsapi/index.php?id_medecin=$1

@@ -65,8 +65,8 @@ function creerConsult($linkpdo, $data) {
         return $reponse;
     }
 
-    $reponse["status_code"] = 200;
-    $reponse['status_message'] = "Consultation créée avec succès.";
+    $reponse["status_code"] = 201;
+    $reponse['status_message'] = "Created";
     $reponse['data'] = $data;
     return $reponse;
 }
@@ -95,8 +95,8 @@ function deleteConsult($linkpdo, $id) {
         return $reponse;
     }
 
-    $reponse["status_code"] = 200;
-    $reponse['status_message'] = "Consultation supprimée avec succès.";
+    $reponse["status_code"] = 204;
+    $reponse['status_message'] = "No Content";
     $reponse['data'] = null;
     return $reponse;
 }

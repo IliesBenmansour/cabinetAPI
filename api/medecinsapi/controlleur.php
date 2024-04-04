@@ -81,8 +81,8 @@ function createMedecin($linkpdo, $data){
         return $reponse;
     }
 
-    $reponse['status_code'] = 200;
-    $reponse['status_message'] = 'Succes';
+    $reponse['status_code'] = 201;
+    $reponse['status_message'] = 'Created';
     $reponse['data'] = $data;
 
     $linkpdo->commit();
@@ -92,7 +92,6 @@ function createMedecin($linkpdo, $data){
 
 function UpdateMedecin($linkpdo, $id, $data)
 {
-    // Récupération des données existantes du médecin à partir de la base de données
     $sqlRecup = "SELECT * FROM medecin WHERE id_medecin = :id";
     $reqRecup = $linkpdo->prepare($sqlRecup);
     $reqRecup->bindParam(':id', $id, PDO::PARAM_INT);
@@ -106,7 +105,6 @@ function UpdateMedecin($linkpdo, $id, $data)
         return $reponse;
     }
 
-    // Préparation de la requête de mise à jour
     $sql = "UPDATE `medecin` SET 
             `civilite` = :civ, 
             `nom` = :nom, 
@@ -164,8 +162,8 @@ function deleteMedecin($linkpdo, $id)
         return $reponse;
     }
 
-    $reponse['status_code'] = 200;
-    $reponse['status_message'] = 'Succes';
+    $reponse['status_code'] = 204;
+    $reponse['status_message'] = 'No content';
     $reponse['data'] = null;
 
     $linkpdo->commit();

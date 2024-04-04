@@ -96,8 +96,8 @@ function createUsager($linkpdo, $data) {
     try {
         if ($req->execute()) {
             $linkpdo->commit();
-            $response['status_code'] = 200;
-            $response['status_message'] = 'Succes';
+            $response['status_code'] = 201;
+            $response['status_message'] = 'Created';
             $response['data'] = $data;
         }
     } catch (Exception $e) {
@@ -189,8 +189,8 @@ function deleteUsager($linkpdo, $id)
         return $reponse;
     }
 
-    $reponse['status_code'] = 200;
-    $reponse['status_message'] = 'Succes';
+    $reponse['status_code'] = 204;
+    $reponse['status_message'] = 'No created';
     $reponse['data'] = null;
 
     $linkpdo->commit();
