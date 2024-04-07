@@ -23,6 +23,8 @@ function affichConsult($linkpdo){
 }
 function affichUneConsult($linkpdo, $id){
 
+    $linkpdo->beginTransaction();
+
     $sql = "SELECT * FROM consultation WHERE id_consult = $id";
     if($sql == false){
         $reponse["status_code"] = 401;
@@ -40,11 +42,16 @@ function affichUneConsult($linkpdo, $id){
     $reponse["status_code"] = 200;
     $reponse['status_message'] = "Succès";
     $reponse['data'] = $reqAllFacts->fetchAll();
+
+    $linkpdo->commit();
+
     return $reponse;
 
 }
 
 function creerConsult($linkpdo, $data) {
+    $linkpdo->beginTransaction();
+
     $reponse = array();
 
     $sql = "INSERT INTO consultation (`date_consult`, `heure_consult`, `duree_consult`, `id_medecin`, `id_usager`) VALUES (:date_consult, :heure_consult, :duree_consult, :id_medecin, :id_usager)";
@@ -68,11 +75,16 @@ function creerConsult($linkpdo, $data) {
     $reponse["status_code"] = 201;
     $reponse['status_message'] = "Created";
     $reponse['data'] = $data;
+
+    $linkpdo->commit();
+
     return $reponse;
 }
 
 
 function deleteConsult($linkpdo, $id) {
+    $linkpdo->beginTransaction();
+
     $reponse = array();
 
     $sql = "DELETE FROM consultation WHERE id_consult = :id";
@@ -95,13 +107,18 @@ function deleteConsult($linkpdo, $id) {
         return $reponse;
     }
 
-    $reponse["status_code"] = 204;
-    $reponse['status_message'] = "No Content";
+    $reponse["status_code"] = 200;
+    $reponse['status_message'] = "Succes";
     $reponse['data'] = null;
+
+    $linkpdo->commit();
+
     return $reponse;
 }
 
 function patchConsult($linkpdo, $id,$data) {
+
+    $linkpdo->beginTransaction();
 
     $sqlRecup = "SELECT * FROM consultation WHERE id_consult = :id";
     $reqRecup = $linkpdo->prepare($sqlRecup);
@@ -139,6 +156,9 @@ function patchConsult($linkpdo, $id,$data) {
     $reponse["status_code"] = 200;
     $reponse['status_message'] = "Succès";
     $reponse['data'] = $data;
+
+    $linkpdo->commit();
+
     return $reponse;
 }
 
