@@ -16,7 +16,7 @@ function affichConsult($linkpdo){
         return $reponse;
     }
     $reponse["status_code"] = 200;
-    $reponse['status_message'] = "Succes";
+    $reponse['status_message'] = "Succès";
     $reponse['data'] = $reqAllFacts->fetchAll();
     return $reponse;
 
@@ -38,7 +38,7 @@ function affichUneConsult($linkpdo, $id){
         return $reponse;
     }
     $reponse["status_code"] = 200;
-    $reponse['status_message'] = "gg";
+    $reponse['status_message'] = "Succès";
     $reponse['data'] = $reqAllFacts->fetchAll();
     return $reponse;
 
@@ -137,7 +137,7 @@ function patchConsult($linkpdo, $id,$data) {
     }
 
     $reponse["status_code"] = 200;
-    $reponse['status_message'] = "Consultation modifié avec succès.";
+    $reponse['status_message'] = "Succès";
     $reponse['data'] = $data;
     return $reponse;
 }

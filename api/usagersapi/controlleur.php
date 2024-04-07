@@ -190,7 +190,7 @@ function deleteUsager($linkpdo, $id)
     }
 
     $reponse['status_code'] = 204;
-    $reponse['status_message'] = 'No created';
+    $reponse['status_message'] = 'No content';
     $reponse['data'] = null;
 
     $linkpdo->commit();
