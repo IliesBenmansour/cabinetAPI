@@ -162,8 +162,8 @@ function deleteMedecin($linkpdo, $id)
         return $reponse;
     }
 
-    $reponse['status_code'] = 204;
-    $reponse['status_message'] = 'No content';
+    $reponse['status_code'] = 200;
+    $reponse['status_message'] = 'Succes';
     $reponse['data'] = null;
 
     $linkpdo->commit();
